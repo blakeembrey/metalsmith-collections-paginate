@@ -15,6 +15,8 @@ npm install metalsmith-collections-paginate --save
 
 ## Usage
 
+To paginate a collection of files, you need to add a property with the same collection name to the options object that you use to initialize the plugin.
+
 ### CLI
 
 Install via npm and then add `metalsmith-collections-paginate` to your `metalsmith.json`:
@@ -35,6 +37,8 @@ Install via npm and then add `metalsmith-collections-paginate` to your `metalsmi
 ```
 
 ### JavaScript
+
+Install via npm, require the module and `.use` the result of the function.
 
 ```js
 var paginate = require('metalsmith-collections-paginate');

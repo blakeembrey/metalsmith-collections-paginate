@@ -59,10 +59,11 @@ module.exports = function (opts) {
 
         // Render the first page differently to the rest, when set.
         if (i === 0 && pageOpts.first) {
-          files[interpolate(pageOpts.first, page.paginate)] = page;
+          page.path = interpolate(pageOpts.first, page.paginate);
         } else {
-          files[interpolate(pageOpts.path, page.paginate)] = page;
+          page.path = interpolate(pageOpts.path, page.paginate);
         }
+        files[page.path] = page;
 
         // Update next/prev references.
         if (pages[i - 1]) {

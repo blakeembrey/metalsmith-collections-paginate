@@ -33,8 +33,18 @@ describe('metalsmith collections paginate', function () {
         }
       })(files, metalsmith, function (err) {
         expect(files['articles/index.html']).to.exist;
+        expect(files['articles/index.html'].paginate.next.path).to.equal(
+          'articles/page/2/index.html'
+        );
         expect(files['articles/page/2/index.html']).to.exist;
+        expect(files['articles/page/2/index.html'].paginate.previous.path).to
+          .equal('articles/index.html');
+        expect(files['articles/page/2/index.html'].paginate.next.path).to.equal(
+          'articles/page/3/index.html'
+        );
         expect(files['articles/page/3/index.html']).to.exist;
+        expect(files['articles/page/3/index.html'].paginate.previous.path).to
+          .equal('articles/page/2/index.html');
 
         expect(metadata.collections.articles.pages).to.have.length(3);
 

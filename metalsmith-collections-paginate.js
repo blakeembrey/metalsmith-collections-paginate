@@ -45,30 +45,39 @@ module.exports = function (opts) {
       for (var i = 0; i < numPages; i++) {
         var pageFiles = collection.slice(i * perPage, (i + 1) * perPage);
 
+        // Create the pagination object for the current page.
+        var paginate = {
+          num:   i + 1,
+          pages: pages,
+          name:  name,
+          files: extend(pageFiles, { metadata: collection.metadata })
+        };
+
         // Generate a new file based on the filename with correct metadata.
         var page = {
           template: pageOpts.template,
           contents: new Buffer(''),
-          paginate: {
-            num:   i + 1,
-            pages: pages,
-            name:  name,
-            files: extend(pageFiles, { metadata: collection.metadata })
-          }
+          path:     interpolate(pageOpts.path, paginate),
+          paginate: paginate
         };
 
-        // Render the first page differently to the rest, when set.
-        if (i === 0 && pageOpts.first) {
-          page.path = interpolate(pageOpts.first, page.paginate);
-        } else {
-          page.path = interpolate(pageOpts.path, page.paginate);
-        }
+        // Create the file.
         files[page.path] = page;
 
         // Update next/prev references.
-        if (pages[i - 1]) {
+        if (i > 0) {
           page.paginate.previous = pages[i - 1];
           pages[i - 1].paginate.next = page;
+        }
+
+        // When the first page option is set, render it over the top of the
+        // canonically generated page.
+        if (i === 0 && pageOpts.first) {
+          page = extend({}, page, {
+            path: interpolate(pageOpts.first, page.paginate)
+          });
+
+          files[page.path] = page;
         }
 
         pages.push(page);

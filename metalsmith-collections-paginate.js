@@ -54,12 +54,12 @@ module.exports = function (opts) {
         };
 
         // Generate a new file based on the filename with correct metadata.
-        var page = {
+        var page = extend({}, pageOpts.pageMetadata, {
           template: pageOpts.template,
           contents: new Buffer(''),
           path:     interpolate(pageOpts.path, paginate),
           paginate: paginate
-        };
+        });
 
         // Create the file.
         files[page.path] = page;

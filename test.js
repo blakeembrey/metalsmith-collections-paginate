@@ -76,6 +76,44 @@ describe('metalsmith collections paginate', function () {
         return done(err);
       });
     });
+
+    it('should add metadata to pages created', function (done) {
+      return paginate({
+        articles: {
+          perPage: 3,
+          template: 'index.jade',
+          pageMetadata: {
+            foo: 'bar',
+            some: {
+              thing: true
+            }
+          }
+        }
+      })(files, metalsmith, function (err) {
+        var firstPage = files['articles/index.html'];
+        var pageOne   = files['articles/page/1/index.html'];
+        var pageTwo   = files['articles/page/2/index.html'];
+        var pageThree = files['articles/page/3/index.html'];
+
+        expect(firstPage).to.exist;
+        expect(firstPage.foo).to.equal('bar');
+        expect(firstPage.some.thing).to.equal(true);
+
+        expect(pageOne).to.exist;
+        expect(pageOne.foo).to.equal('bar');
+        expect(pageOne.some.thing).to.equal(true);
+
+        expect(pageTwo).to.exist;
+        expect(pageTwo.foo).to.equal('bar');
+        expect(pageTwo.some.thing).to.equal(true);
+
+        expect(pageThree).to.exist;
+        expect(pageThree.foo).to.equal('bar');
+        expect(pageThree.some.thing).to.equal(true);
+
+        return done(err);
+      });
+    });
   });
 
   describe('missing collection', function () {

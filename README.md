@@ -48,10 +48,19 @@ metalsmith.use(paginate({
     perPage: 5,
     template: 'index.jade',
     first: 'index.html',
-    path: 'page/:num/index.html'
+    path: 'page/:num/index.html',
+    pageMetadata: {
+      title: 'Articles Archive'
+    }
   }
 }));
 ```
+
+The `pageMetadata` option is optional. The object passed as `pageMetadata`
+is used as the base for any created pages metadata. This allows for adding
+arbitrary metadata to the created pages like a page title variable, allowing
+for more reuse of list page templates.
+
 
 ### Template
 

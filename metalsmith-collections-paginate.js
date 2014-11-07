@@ -25,14 +25,20 @@ module.exports = function (opts) {
 
     // Iterate over all the paginate names and match with collections.
     var complete = keys.every(function (name) {
-      var collection = metadata.collections && metadata.collections[name];
+      var pageOpts = extend({}, DEFAULTS, opts[name]);
+      var collection;
+
+      if (pageOpts.collection === false) {
+        collection = metadata[name];
+      } else {
+        collection = metadata.collections && metadata.collections[name];
+      }
 
       // Throw an error if the collection does not exist.
       if (!collection) {
         return done(new Error('Collection "' + name + '" does not exist'));
       }
 
-      var pageOpts = extend({}, DEFAULTS, opts[name]);
       var perPage  = pageOpts.perPage;
       var pages    = collection.pages = [];
       var numPages = Math.ceil(collection.length / perPage);

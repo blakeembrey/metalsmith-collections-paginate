@@ -30,7 +30,16 @@ describe('metalsmith collections paginate', function () {
           { contents: '' },
           { contents: '' }
         ]
-      }
+      },
+      authors: [
+        { name: '' },
+        { name: '' },
+        { name: '' },
+        { name: '' },
+        { name: '' },
+        { name: '' },
+        { name: '' }
+      ]
     };
 
     var metalsmith = instance(metadata);
@@ -71,6 +80,49 @@ describe('metalsmith collections paginate', function () {
         expect(firstPage.paginate.name).to.equal('articles');
         expect(firstPage.paginate.pages).to.equal(
           metadata.collections.articles.pages
+        );
+
+        return done(err);
+      });
+    });
+
+    it('should split a metadata array into individual files', function (done) {
+      return paginate({
+        authors: {
+          perPage: 3,
+          template: 'index.jade',
+          collection: false
+        }
+      })(files, metalsmith, function (err) {
+        var firstPage = files['authors/index.html'];
+        var pageOne   = files['authors/page/1/index.html'];
+        var pageTwo   = files['authors/page/2/index.html'];
+        var pageThree = files['authors/page/3/index.html'];
+
+        expect(firstPage).to.exist;
+        expect(firstPage).to.not.equal(pageOne);
+        expect(firstPage.paginate.next).to.equal(pageTwo);
+        expect(firstPage.paginate.previous).to.not.exist;
+
+        expect(pageOne).to.exist;
+        expect(pageOne.paginate.next).to.equal(pageTwo);
+        expect(pageOne.paginate.previous).to.not.exist;
+
+        expect(pageTwo).to.exist;
+        expect(pageTwo.paginate.next).to.equal(pageThree);
+        expect(pageTwo.paginate.previous).to.equal(firstPage);
+
+        expect(pageThree).to.exist;
+        expect(pageThree.paginate.next).to.not.exist;
+        expect(pageThree.paginate.previous).to.equal(pageTwo);
+
+        expect(metadata.authors.pages).to.have.length(3);
+
+        expect(firstPage.template).to.equal('index.jade');
+        expect(firstPage.paginate.num).to.equal(1);
+        expect(firstPage.paginate.name).to.equal('authors');
+        expect(firstPage.paginate.pages).to.equal(
+          metadata.authors.pages
         );
 
         return done(err);

@@ -49,27 +49,26 @@ describe('metalsmith collections paginate', function () {
 
         expect(firstPage).to.exist;
         expect(firstPage).to.not.equal(pageOne);
-        expect(firstPage.paginate.next).to.equal(pageTwo);
-        expect(firstPage.paginate.previous).to.not.exist;
+        expect(firstPage.pagination.next).to.equal(pageTwo);
+        expect(firstPage.pagination.previous).to.not.exist;
 
         expect(pageOne).to.exist;
-        expect(pageOne.paginate.next).to.equal(pageTwo);
-        expect(pageOne.paginate.previous).to.not.exist;
+        expect(pageOne.pagination.next).to.equal(pageTwo);
+        expect(pageOne.pagination.previous).to.not.exist;
 
         expect(pageTwo).to.exist;
-        expect(pageTwo.paginate.next).to.equal(pageThree);
-        expect(pageTwo.paginate.previous).to.equal(firstPage);
+        expect(pageTwo.pagination.next).to.equal(pageThree);
+        expect(pageTwo.pagination.previous).to.equal(firstPage);
 
         expect(pageThree).to.exist;
-        expect(pageThree.paginate.next).to.not.exist;
-        expect(pageThree.paginate.previous).to.equal(pageTwo);
+        expect(pageThree.pagination.next).to.not.exist;
+        expect(pageThree.pagination.previous).to.equal(pageTwo);
 
         expect(metadata.collections.articles.pages).to.have.length(3);
 
         expect(firstPage.template).to.equal('index.jade');
-        expect(firstPage.paginate.num).to.equal(1);
-        expect(firstPage.paginate.name).to.equal('articles');
-        expect(firstPage.paginate.pages).to.equal(
+        expect(firstPage.pagination.num).to.equal(1);
+        expect(firstPage.pagination.pages).to.equal(
           metadata.collections.articles.pages
         );
 

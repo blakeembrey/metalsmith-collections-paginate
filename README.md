@@ -7,6 +7,8 @@
 
 A [Metalsmith](http://metalsmith.io/) plugin for paginating [collections](https://github.com/segmentio/metalsmith-collections).
 
+**You should use [metalsmith-pagination](https://github.com/blakeembrey/metalsmith-pagination) instead!**
+
 ## Installation
 
 ```sh
@@ -66,12 +68,12 @@ for more reuse of list page templates.
 
 Within the template file you specified, you will have access to a bunch of pagination specific variables:
 
-* `paginate.num` - The current page number.
-* `paginate.files` - All the files on the current page, iterate over this to render the page.
-* `paginate.name` - The name of the current collection.
-* `paginate.pages` - A link to all the pages in the collection (aliased under `collection.pages`).
-* `paginate.next` - Links to the next page file, if it exists.
-* `paginate.previous` - Links to the previous page file, if it exists.
+* `pagination.num` - The current page number.
+* `pagination.files` - All the files on the current page, iterate over this to render the page.
+* `pagination.name` - The name of the current collection.
+* `pagination.pages` - A link to all the pages in the collection (aliased under `collection.pages`).
+* `pagination.next` - Links to the next page file, if it exists.
+* `pagination.previous` - Links to the previous page file, if it exists.
 
 ## License
 
